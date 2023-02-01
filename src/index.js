@@ -2,34 +2,35 @@ import './styles.css';
 import { trackPageview, trackEvent } from './analytics-api.js';
 
 const control = document.getElementById('control');
-const variation = document.getElementById('variation');
+const test = document.getElementById('test');
 const signUpLink = document.getElementById('sign-up-link');
 
-// Randomly assign and storage control or test variant
-if (!localStorage.abStorage) {
+// Randomly assigning control variant or test variant and storing it in localStorage to guarantee that the user always sees the same variation even if the page is closed or reloaded
+if (!window.localStorage.getItem('abStorage')) {
   if (Math.random() >= 0.5) {
-    window.localStorage.abStorage = 'control';
+    window.localStorage.setItem('abStorage', 'control');
   } else {
-    window.localStorage.abStorage = 'variant';
+    window.localStorage.setItem('abStorage', 'test');
   }
 }
 
-// Show or hide elements depending on abStorage
+// Hiding elements depending on the variation stored
 if (window.localStorage.abStorage === 'control') {
-  variation.classList.add('hide');
-  // control.classList.add("show");
-} else if (localStorage.abStorage === 'variant') {
+  test.classList.add('hide');
+} else if (localStorage.abStorage === 'test') {
   control.classList.add('hide');
-  // variation.classList.add("show");
 }
 
+// Counting the number of views and storing it in localStorage to keep track even when the page is reloaded
 const countViews = () => {
   let myStorage = window.localStorage,
     pageCount;
   window.addEventListener('load', function () {
+    // Creating the property pageCount and setting it to 1 if it doesn't exist yet
     if (!myStorage.getItem('pageCount')) {
       myStorage.setItem('pageCount', 1);
     } else {
+      // Adding 1 to pageCount everytime the page is loaded
       pageCount = myStorage.getItem('pageCount');
       pageCount++;
       myStorage.setItem('pageCount', pageCount);
@@ -37,16 +38,20 @@ const countViews = () => {
   });
 };
 
+// Counting the number of clicks, considering that only one click per user should be stored
 const countClicks = () => {
   let myStorage = window.localStorage,
     clickCount;
   signUpLink.addEventListener('click', () => {
+    // Adding 1 to clickCount on click only if "clicked" is false
     if (!localStorage.clicked) {
-      myStorage.setItem('clickCount', 1);
+      clickCount = myStorage.getItem('clickCount');
+      clickCount++;
+      myStorage.setItem('clickCount', clickCount);
     }
-    localStorage.setItem('clicked', true);
+    // Setiing clicked to true on click
+    myStorage.setItem('clicked', true);
   });
-  return clickCount;
 };
 
 countViews();
@@ -59,8 +64,11 @@ trackPageview(
   )}, numberOfViews: ${window.localStorage.getItem('pageCount')}`
 );
 
+// Tracking Event
 trackEvent(
-  `Event: "click", URL: ${document.URL}, clicks: ${window.localStorage.getItem(
-    'clickCount'
-  )}`
+  `Event: "click", URL: ${document.URL}, clicks: ${
+    window.localStorage.getItem('clickCount')
+      ? window.localStorage.getItem('clickCount')
+      : 0
+  }`
 );
