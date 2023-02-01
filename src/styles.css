@@ -1,0 +1,41 @@
+/* Type your code here */
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  background-color: #f8faf9;
+}
+
+.container {
+  margin: 16px auto;
+  max-width: 720px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  color: #03314b;
+  background-color: #fff;
+  border-radius: 1%;
+}
+
+.container h1 {
+  margin: 0;
+  font-size: 40px;
+}
+
+.container img {
+  width: 100%;
+}
+
+.content {
+  font-size: 20px;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: inline-block;
+}

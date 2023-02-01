@@ -1,0 +1,1 @@
+# Blinkist web coding challenge
