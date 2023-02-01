@@ -6,7 +6,7 @@
   "scripts": {
     "start": "parcel index.html --open",
     "build": "parcel build index.html",
-    "predeploy": "rm -rf dist && parcel build index.html --public-url YOUR_REPO_NAME",
+    "predeploy": "rm -rf dist && parcel build index.html --public-url blinkist-web-coding-challenge-2023",
     "deploy": "gh-pages -d dist",
     "push-gh-pages": "push-dir --dir=dist --branch=gh-pages --cleanup --verbose"
   },
