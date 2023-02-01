@@ -1,4 +1,4 @@
-// import './styles.css';
+import './styles.css';
 import { trackPageview, trackEvent } from './analytics-api.js';
 
 const control = document.getElementById('control');
